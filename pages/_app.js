@@ -20,7 +20,7 @@ export default class MyApp extends App {
     return (
       <>
         <Head>
-          <title>Chia / Tiền / Ăn . Cơm</title>
+          <title>Chia tiền ăn cơm | ChiaTienAn.Com</title>
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         </Head>
         <ThemeProvider theme={theme}>
