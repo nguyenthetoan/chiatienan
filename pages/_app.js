@@ -3,6 +3,7 @@ import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { NextSeo } from 'next-seo';
 import theme from '../src/theme';
 
 export default class MyApp extends App {
@@ -19,8 +20,11 @@ export default class MyApp extends App {
 
     return (
       <>
+        <NextSeo
+          title="Chia tiền ăn có mã khuyến mãi, giảm giá | Chia tiền ăn cơm"
+          description="Chia tiền theo hoá đơn, bill, có áp dụng mã khuyến mãi, mã giảm giá, tính tiền theo hoá đơn khuyến mãi, gỉam gía"
+        />
         <Head>
-          <title>Chia tiền ăn cơm | ChiaTienAn.Com</title>
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         </Head>
         <ThemeProvider theme={theme}>

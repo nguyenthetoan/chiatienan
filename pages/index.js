@@ -12,6 +12,7 @@ import { uniqueId } from 'lodash-es';
 import MoneyResult from 'components/MoneyResult';
 import Icon from '@material-ui/core/Icon';
 import ReactGA from 'react-ga';
+import { NextSeo } from 'next-seo';
 import usePromoCalculator from '../src/usePromoCalculator';
 import formatVnd from '../src/format';
 
