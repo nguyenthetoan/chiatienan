@@ -1,203 +1,111 @@
-import Head from 'next/head'
+import React, { useState, useCallback } from 'react';
+import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import MoneyInput from 'components/MoneyInput';
+import Typography from '@material-ui/core/Typography';
+import Footer from 'components/Footer';
+import Box from '@material-ui/core/Box';
+import { uniqueId } from 'lodash-es';
+import MoneyResult from 'components/MoneyResult';
+import usePromoCalculator from '../src/usePromoCalculator';
+import formatVnd from '../src/format';
 
-const Home = () => (
-  <div className="container">
-    <Head>
-      <title>Create Next App</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  paper: {
+    padding: theme.spacing(3)
+  },
+  center: {
+    textAlign: 'center'
+  }
+}));
 
-    <main>
-      <h1 className="title">
-        Welcome to <a href="https://nextjs.org">Next.js!</a>
-      </h1>
+const Home = () => {
+  const classes = useStyles();
+  const [total, setTotal] = useState('');
+  const [menuItems, setMenuItems] = useState([
+    { id: uniqueId(), amount: 0, result: 0 },
+    { id: uniqueId(), amount: 0, result: 0 },
+    { id: uniqueId(), amount: 0, result: 0 },
+  ]);
 
-      <p className="description">
-        Get started by editing <code>pages/index.js</code>
-      </p>
+  const onChangeTotal = useCallback(v => setTotal(Number(v)), []);
+  const onChangeItem = useCallback((v, itemId) => {
+    const m = menuItems.map(i => i.id === itemId ? ({ ...i, amount: Number(v) }) : i);
+    setMenuItems(m);
+  }, [menuItems]);
 
-      <div className="grid">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+  const resultItems = usePromoCalculator(total, menuItems);
 
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Learn &rarr;</h3>
-          <p>Learn about Next.js in an interactive course with quizzes!</p>
-        </a>
+  console.log({ resultItems });
 
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Discover and deploy boilerplate example Next.js projects.</p>
-        </a>
-
-        <a
-          href="https://zeit.co/new?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          className="card"
-        >
-          <h3>Deploy &rarr;</h3>
-          <p>
-            Instantly deploy your Next.js site to a public URL with ZEIT Now.
-          </p>
-        </a>
-      </div>
-    </main>
-
-    <footer>
-      <a
-        href="https://zeit.co?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Powered by <img src="/zeit.svg" alt="ZEIT Logo" />
-      </a>
-    </footer>
-
-    <style jsx>{`
-      .container {
-        min-height: 100vh;
-        padding: 0 0.5rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      main {
-        padding: 5rem 0;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      footer {
-        width: 100%;
-        height: 100px;
-        border-top: 1px solid #eaeaea;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      footer img {
-        margin-left: 0.5rem;
-      }
-
-      footer a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .title a {
-        color: #0070f3;
-        text-decoration: none;
-      }
-
-      .title a:hover,
-      .title a:focus,
-      .title a:active {
-        text-decoration: underline;
-      }
-
-      .title {
-        margin: 0;
-        line-height: 1.15;
-        font-size: 4rem;
-      }
-
-      .title,
-      .description {
-        text-align: center;
-      }
-
-      .description {
-        line-height: 1.5;
-        font-size: 1.5rem;
-      }
-
-      code {
-        background: #fafafa;
-        border-radius: 5px;
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-      }
-
-      .grid {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-
-        max-width: 800px;
-        margin-top: 3rem;
-      }
-
-      .card {
-        margin: 1rem;
-        flex-basis: 45%;
-        padding: 1.5rem;
-        text-align: left;
-        color: inherit;
-        text-decoration: none;
-        border: 1px solid #eaeaea;
-        border-radius: 10px;
-        transition: color 0.15s ease, border-color 0.15s ease;
-      }
-
-      .card:hover,
-      .card:focus,
-      .card:active {
-        color: #0070f3;
-        border-color: #0070f3;
-      }
-
-      .card h3 {
-        margin: 0 0 1rem 0;
-        font-size: 1.5rem;
-      }
-
-      .card p {
-        margin: 0;
-        font-size: 1.25rem;
-        line-height: 1.5;
-      }
-
-      @media (max-width: 600px) {
-        .grid {
-          width: 100%;
-          flex-direction: column;
-        }
-      }
-    `}</style>
-
-    <style jsx global>{`
-      html,
-      body {
-        padding: 0;
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-    `}</style>
-  </div>
-)
+  return (
+    <>
+      <Container maxWidth="md">
+        <Typography variant="h1" className={classes.center}>
+          chia tiền ăn . cơm
+        </Typography>
+        <Box my={2} component="p" className={classes.center}>
+          Nhập tổng bill
+          - Thêm món ăn/uống
+          - Bấm nút tính
+        </Box>
+        <Paper elevation={3} className={classes.paper}>
+          <Box mb={3}>
+            <Grid container spacing={3}>
+              <Grid item md={12} xs={12} xl={12}>
+                <Typography>Tổng hoá đơn (đã trừ khuyến mãi):</Typography>
+              </Grid>
+              <Grid item md={12} xs={12} xl={12}>
+                <MoneyInput elementId="total-bill-amount" onChange={onChangeTotal} fullWidth inputLabel="Tổng Bill" />
+              </Grid>
+            </Grid>
+          </Box>
+          <Grid container spacing={3}>
+            <Grid item md={6} xs={12} xl={12}>
+              <Grid container spacing={3}>
+                <Grid item md={12} xs={12} xl={12}>
+                  <Typography>Giá Từng Món:</Typography>
+                </Grid>
+                {menuItems.map((item, idx) => (
+                  <Grid item md={12} xs={12} xl={12} key={item.id}>
+                    <MoneyInput
+                      fullWidth
+                      elementId={`item-amount-${idx}`}
+                      inputLabel={`Món ${idx + 1}`}
+                      onChange={v => onChangeItem(v, item.id)}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+            <Grid item md={6} xs={12} xl={12}>
+              <Grid container spacing={3}>
+                <Grid item md={12} xs={12} xl={12}>
+                  <Typography>Giá sau khuyến mãi:</Typography>
+                </Grid>
+                {resultItems.map((result, idx) => (
+                  <Grid item md={12} xs={12} xl={12} key={result.id}>
+                    <MoneyResult
+                      value={formatVnd(result.result)}
+                      elementId={`item-result-amount-${idx}`}
+                      inputLabel={`Món ${idx + 1}`}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Container>
+      <Footer />
+    </>
+  )
+}
 
 export default Home

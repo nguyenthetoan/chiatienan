@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "."
+  ]
+}
