@@ -6,6 +6,7 @@ const withTM = require('next-transpile-modules')(['lodash-es']);
 module.exports = withPlugins([withTM], {
   webpack(config, options) {
     config.resolve.alias.components = path.join(__dirname, 'components')
+    config.resolve.alias.src = path.join(__dirname, 'src')
     return config
   }
 })

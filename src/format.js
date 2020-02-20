@@ -1,4 +1,6 @@
 import accounting from 'accounting-js';
 
+export const formatNumber = number => accounting.formatNumber(number);
+
 export default (value) =>
-  accounting.formatMoney(value, { symbol: 'vnđ', format: '%v %s' });
+  value ? accounting.formatMoney(value, { symbol: 'vnđ', format: '%v %s' }) : '0';

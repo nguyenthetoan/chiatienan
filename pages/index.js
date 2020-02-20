@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
+import green from '@material-ui/core/colors/green';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import MoneyInput from 'components/MoneyInput';
@@ -9,6 +10,7 @@ import Footer from 'components/Footer';
 import Box from '@material-ui/core/Box';
 import { uniqueId } from 'lodash-es';
 import MoneyResult from 'components/MoneyResult';
+import Icon from '@material-ui/core/Icon';
 import usePromoCalculator from '../src/usePromoCalculator';
 import formatVnd from '../src/format';
 
@@ -22,6 +24,19 @@ const useStyles = makeStyles(theme => ({
   },
   center: {
     textAlign: 'center'
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  itemActions: {
+    display: 'flex',
+    alignItems: 'center',
+    '& h5': {
+      flexGrow: 1
+    }
+  },
+  iconButton: {
+    cursor: 'pointer'
   }
 }));
 
@@ -34,43 +49,61 @@ const Home = () => {
     { id: uniqueId(), amount: 0, result: 0 },
   ]);
 
+  const resultItems = usePromoCalculator(total, menuItems);
+
   const onChangeTotal = useCallback(v => setTotal(Number(v)), []);
   const onChangeItem = useCallback((v, itemId) => {
     const m = menuItems.map(i => i.id === itemId ? ({ ...i, amount: Number(v) }) : i);
     setMenuItems(m);
   }, [menuItems]);
-
-  const resultItems = usePromoCalculator(total, menuItems);
-
-  console.log({ resultItems });
+  const onAddItem = useCallback(() => {
+    setMenuItems([...menuItems, { id: uniqueId(), amount: 0, result: 0 }]);
+  }, [menuItems]);
 
   return (
     <>
       <Container maxWidth="md">
         <Typography variant="h1" className={classes.center}>
-          chia tiền ăn . cơm
+          chia tiền ăn
+          {' '}
+          <span>.</span>
+          {' '}
+          cơm
         </Typography>
-        <Box my={2} component="p" className={classes.center}>
-          Nhập tổng bill
+        <Box my={2} component="h3" className={classes.center}>
+          Nhập tổng hoá đơn
           - Thêm món ăn/uống
-          - Bấm nút tính
+          - Xong
         </Box>
         <Paper elevation={3} className={classes.paper}>
           <Box mb={3}>
             <Grid container spacing={3}>
               <Grid item md={12} xs={12} xl={12}>
-                <Typography>Tổng hoá đơn (đã trừ khuyến mãi):</Typography>
+                <Typography variant="h5">Tổng Hoá Đơn (đã trừ khuyến mãi):</Typography>
               </Grid>
-              <Grid item md={12} xs={12} xl={12}>
-                <MoneyInput elementId="total-bill-amount" onChange={onChangeTotal} fullWidth inputLabel="Tổng Bill" />
+              <Grid item md={6} xs={12} xl={12}>
+                <MoneyInput
+                  elementId="total-bill-amount"
+                  onChange={onChangeTotal}
+                  fullWidth
+                  inputLabel="Tổng bill"
+                />
               </Grid>
             </Grid>
           </Box>
           <Grid container spacing={3}>
             <Grid item md={6} xs={12} xl={12}>
               <Grid container spacing={3}>
-                <Grid item md={12} xs={12} xl={12}>
-                  <Typography>Giá Từng Món:</Typography>
+                <Grid item md={12} xs={12} xl={12} className={classes.itemActions}>
+                  <Typography variant="h5">Giá Gốc Từng Món:</Typography>
+                  <Icon
+                    className={classes.iconButton}
+                    onClick={onAddItem}
+                    color="action"
+                    style={{ color: green[500] }}
+                  >
+                    playlist_add
+                  </Icon>
                 </Grid>
                 {menuItems.map((item, idx) => (
                   <Grid item md={12} xs={12} xl={12} key={item.id}>
@@ -87,12 +120,12 @@ const Home = () => {
             <Grid item md={6} xs={12} xl={12}>
               <Grid container spacing={3}>
                 <Grid item md={12} xs={12} xl={12}>
-                  <Typography>Giá sau khuyến mãi:</Typography>
+                  <Typography variant="h5">Giá Sau Khuyến Mãi:</Typography>
                 </Grid>
-                {resultItems.map((result, idx) => (
-                  <Grid item md={12} xs={12} xl={12} key={result.id}>
+                {resultItems.map((r, idx) => (
+                  <Grid item md={12} xs={12} xl={12} key={r.id}>
                     <MoneyResult
-                      value={formatVnd(result.result)}
+                      value={formatVnd(r.result)}
                       elementId={`item-result-amount-${idx}`}
                       inputLabel={`Món ${idx + 1}`}
                     />
