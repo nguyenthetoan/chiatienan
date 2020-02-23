@@ -79,22 +79,22 @@ const Home = () => {
           cơm
         </Typography>
         <Box my={2} component="h2" className={classes.center}>
-          Nhập tổng hoá đơn
+          Nhập giá hoá đơn
           - Thêm món ăn/uống
-          - Xong
+          - Kết quả hiển thị nhanh ở cột thứ 2
         </Box>
         <Paper elevation={3} className={classes.paper}>
           <Box mb={3}>
             <Grid container spacing={3}>
               <Grid item md={12} xs={12} xl={12}>
-                <Typography>Tổng Bill (đã trừ khuyến mãi)</Typography>
+                <Typography>Giá Bill (đã trừ khuyến mãi)</Typography>
               </Grid>
               <Grid item md={6} xs={12} xl={12}>
                 <MoneyInput
                   elementId="total-bill-amount"
                   onChange={onChangeTotal}
                   fullWidth
-                  inputLabel="Tổng bill"
+                  inputLabel="Giá bill"
                 />
               </Grid>
             </Grid>
@@ -128,7 +128,7 @@ const Home = () => {
             <Grid item md={6} xs={12} xl={12}>
               <Grid container spacing={3}>
                 <Grid item md={12} xs={12} xl={12}>
-                  <Typography>Giá Sau Khuyến Mãi</Typography>
+                  <Typography>Giá Các Món Sau Khuyến Mãi</Typography>
                 </Grid>
                 {resultItems.map((r, idx) => (
                   <Grid item md={12} xs={12} xl={12} key={r.id}>

@@ -21,8 +21,8 @@ export default class MyApp extends App {
     return (
       <>
         <NextSeo
-          title="Chia tiền ăn có mã khuyến mãi, giảm giá | Chia tiền ăn cơm"
-          description="Chia tiền theo hoá đơn, bill, có áp dụng mã khuyến mãi, mã giảm giá, tính tiền theo hoá đơn khuyến mãi, gỉam gía"
+          title="Chia tiền ăn theo từng món | Chia tiền ăn cơm"
+          description="Cách chia hoá đơn khuyến mãi của Grab Food, Now, GoFood, Foody cho từng người."
         />
         <Head>
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
